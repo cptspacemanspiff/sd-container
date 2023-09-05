@@ -9,13 +9,9 @@ RUN apt-get update  \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade pip && \
-    pip install -r /tmp/comfyui_req.txt 
-
-RUN git clone --depth 1 https://github.com/invoke-ai/InvokeAI.git \
-    && cd InvokeAI \
-    && pip install . \
-    && cd .. && rm -rf InvokeAI
+RUN pip install --upgrade pip \
+    && pip install -r /tmp/comfyui_req.txt \
+    && pip install invokeai
 
 # setup invokeai:
 RUN mkdir -p /root/data  \
