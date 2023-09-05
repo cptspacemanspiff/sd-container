@@ -2,13 +2,15 @@ from pytorch/pytorch:2.0.1-cuda11.7-cudnn8-devel as base
 
 COPY ./comfyui_req.txt /tmp/comfyui_req.txt
 
-RUN pip install --upgrade pip && \
-    pip install -r /tmp/comfyui_req.txt 
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update  \
     && apt-get install -y libgl-gst libglib2.0-0 git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --upgrade pip && \
+    pip install -r /tmp/comfyui_req.txt 
 
 RUN git clone --depth 1 https://github.com/invoke-ai/InvokeAI.git \
     && cd InvokeAI \
