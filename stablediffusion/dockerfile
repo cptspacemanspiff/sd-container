@@ -4,3 +4,17 @@ COPY ./comfyui_req.txt /tmp/comfyui_req.txt
 
 RUN pip install --upgrade pip && \
     pip install -r /tmp/comfyui_req.txt 
+
+RUN apt-get update  \
+    && apt-get install -y libgl-gst libglib2.0-0 git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git clone --depth 1 https://github.com/invoke-ai/InvokeAI.git \
+    && cd InvokeAI \
+    && pip install . \
+    && cd .. && rm -rf InvokeAI
+
+# setup invokeai:
+RUN mkdir -p /root/data  \
+    && invokeai-configure --root data/ --no-skip-sd-weights --no-full-precision -y
